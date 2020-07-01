@@ -1,0 +1,36 @@
+{
+    "name": "jmhc/laravel-sms",
+    "description": "Laravel sms helper.",
+    "keywords": [
+        "jmhc",
+        "laravel",
+        "sms",
+        "helper"
+    ],
+    "homepage": "http://jumihc.com/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "jumihc",
+            "email": "jumihuchuang@126.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Jmhc\\SmsHelper\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^7.2",
+        "ext-json": "*",
+        "jmhc/laravel-support": "^2.0",
+        "jmhc/sms": "^1.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Jmhc\\SmsHelper\\JmhcServiceProvider"
+            ]
+        }
+    }
+}
