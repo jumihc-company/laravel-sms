@@ -7,7 +7,6 @@
 namespace Jmhc\SmsHelper;
 
 use Jmhc\Sms\Sms;
-use Jmhc\Support\Utils\ContainerHelper;
 
 class SmsHelper
 {
@@ -19,7 +18,7 @@ class SmsHelper
     {
         return new Sms(
             SmsCache::getInstance(),
-            ContainerHelper::config('jmhc-sms', [])
+            config('jmhc-sms', [])
         );
     }
 

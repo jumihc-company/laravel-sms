@@ -6,24 +6,23 @@
 
 namespace Jmhc\SmsHelper;
 
+use Illuminate\Redis\Connections\PhpRedisConnection;
 use Jmhc\Sms\Contracts\CacheInterface;
+use Jmhc\Support\Helper\RedisConnectionHelper;
 use Jmhc\Support\Traits\InstanceTrait;
-use Jmhc\Support\Traits\RedisHandlerTrait;
-use Jmhc\Support\Utils\ContainerHelper;
 
 class SmsCache implements CacheInterface
 {
     use InstanceTrait;
-    use RedisHandlerTrait;
 
     /**
-     * @var Connection|\Redis
+     * @var PhpRedisConnection
      */
-    protected $redis;
+    protected $connection;
 
     public function __construct()
     {
-        $this->redis = $this->getPhpRedisHandler();
+        $this->connection = RedisConnectionHelper::getPhpRedis();
     }
 
     /**
@@ -31,7 +30,7 @@ class SmsCache implements CacheInterface
      */
     public function get(string $key): array
     {
-        return $this->redis->hGetAll($key);
+        return $this->connection->hGetAll($key);
     }
 
     /**
@@ -39,7 +38,7 @@ class SmsCache implements CacheInterface
      */
     public function set(string $key, array $data): bool
     {
-        return $this->redis->hMSet($key, $data);
+        return $this->connection->hMSet($key, $data);
     }
 
     /**
@@ -47,7 +46,7 @@ class SmsCache implements CacheInterface
      */
     public function expire(string $key, int $ttl): bool
     {
-        return $this->redis->expire($key, $ttl);
+        return $this->connection->expire($key, $ttl);
     }
 
     /**
@@ -55,7 +54,7 @@ class SmsCache implements CacheInterface
      */
     public function exists(string $key): bool
     {
-        return !! $this->redis->exists($key);
+        return !! $this->connection->exists($key);
     }
 
     /**
@@ -63,7 +62,7 @@ class SmsCache implements CacheInterface
      */
     public function del(string $key): bool
     {
-        return !! $this->redis->del($key);
+        return !! $this->connection->del($key);
     }
 
     /**
@@ -71,12 +70,12 @@ class SmsCache implements CacheInterface
      */
     public function lock(string $key): bool
     {
-        return $this->redis->command('set', [
+        return $this->connection->command('set', [
             $key,
             1,
             [
                 'nx',
-                'ex' => ContainerHelper::config('jmhc-sms.send_lock_seconds', 5),
+                'ex' => config('jmhc-sms.send_lock_seconds', 5),
             ]
         ]);
     }

@@ -21,9 +21,9 @@
         }
     },
     "require": {
-        "php": "^7.2",
+        "php": "^7.3",
         "ext-json": "*",
-        "jmhc/laravel-support": "^2.0",
+        "jmhc/laravel-support": "^8.0",
         "jmhc/sms": "^1.0"
     },
     "extra": {

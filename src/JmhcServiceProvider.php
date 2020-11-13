@@ -38,6 +38,9 @@ class JmhcServiceProvider extends ServiceProvider
         );
     }
 
+    /**
+     * 发布文件
+     */
     protected function publishFiles()
     {
         // 发布配置文件
